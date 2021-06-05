@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ProsperiDevLab.Controllers.Contracts.Request
+{
+    public class ServiceOrderRequest
+    {
+        public long Id { get; set; }
+        public string Number { get; set; }
+        public DateTime ExecutionDate { get; set; }
+        public PriceRequest Price { get; set; }
+        public long PriceId { get; set; }
+        public EmployeeRequest Employee { get; set; }
+        public long EmployeeId { get; set; }
+        public CustomerRequest Customer { get; set; }
+        public long CustomerId { get; set; }
+    }
+}
