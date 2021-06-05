@@ -1,14 +1,12 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
+using ProsperiDevLab.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProsperiDevLab.Models.Validations
 {
     public class EmployeeValidation : AbstractValidator<Employee>
     {
-        public EmployeeValidation()
+        public EmployeeValidation(ApplicationDbContext context)
         {
             RuleFor(x => x.Name)
                 .NotEmpty();
@@ -16,6 +14,10 @@ namespace ProsperiDevLab.Models.Validations
             RuleFor(x => x.CPF)
                 .NotEmpty()
                 .IsValidCPF();
+
+            RuleFor(x => x.CPF)
+                .Must((x, cpf) => !context.Employees.Any(e => e.CPF == cpf && e.Id != x.Id))
+                .WithMessage("Employee already exists.");
         }
     }
 }

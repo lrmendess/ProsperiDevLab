@@ -9,8 +9,8 @@ namespace ProsperiDevLab.Services.Interfaces
         where TEntity : class
         where TRepository : ICrudRepository<TKey, TEntity>
     {
-        void Create(TEntity entity);
-        void Update(TEntity entity);
+        void Create(TEntity entity, params string[] ruleSets);
+        void Update(TEntity entity, params string[] ruleSets);
         void Remove(TKey id);
     }
 }

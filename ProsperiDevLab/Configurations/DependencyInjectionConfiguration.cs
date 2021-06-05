@@ -19,6 +19,9 @@ namespace ProsperiDevLab.Configurations
             services.AddScoped(typeof(ICrudService<,,>), typeof(CrudService<,,>));
 
             services.AddScoped<IServiceOrderService, ServiceOrderService>();
+            services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
 
             services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();
             services.AddScoped<IPriceRepository, PriceRepository>();

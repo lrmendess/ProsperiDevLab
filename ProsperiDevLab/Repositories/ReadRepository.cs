@@ -1,4 +1,4 @@
-﻿using ProsperiDevLab.Data;
+﻿using Microsoft.EntityFrameworkCore;
 using ProsperiDevLab.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,9 +11,9 @@ namespace ProsperiDevLab.Repositories
         where TKey : struct
         where TEntity : class
     {
-        private readonly ApplicationDbContext _context;
+        private readonly DbContext _context;
 
-        public ReadRepository(ApplicationDbContext context)
+        public ReadRepository(DbContext context)
         {
             _context = context;
         }

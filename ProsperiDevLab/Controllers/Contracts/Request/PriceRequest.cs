@@ -9,7 +9,6 @@ namespace ProsperiDevLab.Controllers.Contracts.Request
     {
         public long Id { get; set; }
         public decimal Value { get; set; }
-        public CurrencyRequest Currency { get; set; }
         public int CurrencyId { get; set; }
     }
 }

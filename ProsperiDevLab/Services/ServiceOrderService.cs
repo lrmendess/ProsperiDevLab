@@ -1,68 +1,101 @@
 ﻿using Microsoft.Extensions.Logging;
 using ProsperiDevLab.Models;
+using ProsperiDevLab.Models.Validations;
 using ProsperiDevLab.Repositories.Interfaces;
 using ProsperiDevLab.Services.Interfaces;
+using ProsperiDevLab.Services.Notificator;
 using System;
 
 namespace ProsperiDevLab.Services
 {
     public class ServiceOrderService : CrudService<long, ServiceOrder, IServiceOrderRepository>, IServiceOrderService
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<ServiceOrderService> _logger;
         private readonly IServiceOrderRepository _serviceOrderRepository;
         private readonly IPriceRepository _priceRepository;
-        private readonly ICurrencyRepository _currencyRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly ICustomerRepository _customerRepository;
 
-        public ServiceOrderService(IUnitOfWork unitOfWork, ILogger<ServiceOrderService> logger,
-            IServiceOrderRepository serviceOrderRepository, IPriceRepository priceRepository,
-            ICurrencyRepository currencyRepository, IEmployeeRepository employeeRepository,
-            ICustomerRepository customerRepository) : base(unitOfWork, serviceOrderRepository)
+        public ServiceOrderService(IUnitOfWork unitOfWork, IServiceOrderRepository serviceOrderRepository,
+            IPriceRepository priceRepository, IEmployeeRepository employeeRepository, ICustomerRepository customerRepository,
+            ServiceOrderValidation serviceOrderValidator, INotificator notificator, ILogger<ServiceOrderService> logger)
+            : base(unitOfWork, serviceOrderRepository, serviceOrderValidator, notificator, logger)
         {
-            _unitOfWork = unitOfWork;
-            _logger = logger;
             _serviceOrderRepository = serviceOrderRepository;
             _priceRepository = priceRepository;
-            _currencyRepository = currencyRepository;
             _employeeRepository = employeeRepository;
             _customerRepository = customerRepository;
         }
 
-        public override void Create(ServiceOrder serviceOrder)
+        public override void Create(ServiceOrder serviceOrder, params string[] ruleSets)
         {
+            serviceOrder.PriceId = 0;
+            
             if (_employeeRepository.Get(serviceOrder.EmployeeId) != null)
             {
                 serviceOrder.Employee = null;
+            }
+            else
+            {
+                var employee = _employeeRepository.GetByCpf(serviceOrder?.Employee?.CPF);
+            
+                if (employee != null)
+                {
+                    serviceOrder.Employee = null;
+                    serviceOrder.EmployeeId = employee.Id;
+                }
+                else
+                {
+                    serviceOrder.EmployeeId = 0;
+                }
             }
             
             if (_customerRepository.Get(serviceOrder.CustomerId) != null)
             {
                 serviceOrder.Customer = null;
             }
+            else
+            {
+                var customer = _customerRepository.GetByCnpj(serviceOrder?.Customer?.CNPJ);
+            
+                if (customer != null)
+                {
+                    serviceOrder.Customer = null;
+                    serviceOrder.CustomerId = customer.Id;
+                }
+                else
+                {
+                    serviceOrder.CustomerId = 0;
+                }
+            }
 
-            base.Create(serviceOrder);
+            base.Create(serviceOrder, ruleSets);
         }
 
         public override void Remove(long id)
         {
             var serviceOrder = _serviceOrderRepository.GetWithPrice(id);
 
-            using (var transaction = _unitOfWork.BeginTransaction())
+            if (serviceOrder == null)
+            {
+                Notify(NotificationType.ERROR, nameof(ServiceOrder), $"{nameof(ServiceOrder)} not found.");
+                return;
+            }
+
+            using (var Transaction = UnitOfWork.BeginTransaction())
             {
                 try
                 {
                     _priceRepository.Remove(serviceOrder.Price);
                     _serviceOrderRepository.Remove(serviceOrder);
 
-                    transaction.Commit();
-                    _unitOfWork.SaveChanges();
+                    Transaction.Commit();
+                    UnitOfWork.SaveChanges();
                 }
                 catch (Exception e)
                 {
-                    transaction.Rollback();
-                    _logger.LogError(e.Message);
+                    Transaction.Rollback();
+                    Logger.LogError(e.Message);
+                    Notify(NotificationType.ERROR, nameof(ServiceOrder), $"There was an error removing {nameof(ServiceOrder)}.");
                 }
             }
         }

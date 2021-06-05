@@ -6,16 +6,16 @@ namespace ProsperiDevLab.Services.Utils
 {
     public class BaseService
     {
-        private readonly INotificator _notificator;
+        protected readonly INotificator Notificator;
 
         public BaseService(INotificator notificator)
         {
-            _notificator = notificator;
+            Notificator = notificator;
         }
 
         public virtual void Notify(NotificationType type, string property = "", string message = "")
         {
-            _notificator.Handle(new Notification(type, property, message));
+            Notificator.Handle(new Notification(type, property, message));
         }
 
         public virtual void Notify(ValidationResult validationResult)
@@ -30,6 +30,12 @@ namespace ProsperiDevLab.Services.Utils
             where TV : AbstractValidator<TE>
             where TE : class
         {
+            if (entity == null)
+            {
+                Notify(NotificationType.ERROR, string.Empty, $"{typeof(TE).Name} not found.");
+                return false;
+            }
+
             var validator = validation.Validate(entity, options => options.IncludeRuleSets(ruleSets));
 
             if (validator.IsValid)

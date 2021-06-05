@@ -1,5 +1,10 @@
-﻿using ProsperiDevLab.Repositories.Interfaces;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
+using ProsperiDevLab.Repositories.Interfaces;
 using ProsperiDevLab.Services.Interfaces;
+using ProsperiDevLab.Services.Notificator;
+using System;
+using System.Linq;
 
 namespace ProsperiDevLab.Services
 {
@@ -8,38 +13,88 @@ namespace ProsperiDevLab.Services
         where TEntity : class, new()
         where TRepository : ICrudRepository<TKey, TEntity>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly TRepository _repository;
+        protected readonly IUnitOfWork UnitOfWork;
+        protected readonly TRepository CrudRepository;
+        protected readonly AbstractValidator<TEntity> DefaultValidator;
+        protected readonly ILogger Logger;
 
-        public CrudService(IUnitOfWork unitOfWork, TRepository repository)
-            : base(repository)
+        public CrudService(IUnitOfWork unitOfWork, TRepository repository, AbstractValidator<TEntity> validator, INotificator notificator, ILogger logger)
+            : base(repository, notificator)
         {
-            _unitOfWork = unitOfWork;
-            _repository = repository;
+            UnitOfWork = unitOfWork;
+            CrudRepository = repository;
+            DefaultValidator = validator;
+            Logger = logger;
         }
 
-        public virtual void Create(TEntity entity)
+        public virtual void Create(TEntity entity, params string[] ruleSets)
         {
-            _repository.Create(entity);
-            _unitOfWork.SaveChanges();
+            ruleSets.Append("create");
+
+            if (!IsValid(DefaultValidator, entity, ruleSets))
+            {
+                return;
+            }
+
+            try
+            {
+                CrudRepository.Create(entity);
+                UnitOfWork.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.Message);
+                Notify(NotificationType.ERROR, typeof(TEntity).Name, $"There was an error adding {typeof(TEntity).Name}.");
+            }
         }
 
-        public virtual void Update(TEntity entity)
+        public virtual void Update(TEntity entity, params string[] ruleSets)
         {
-            _repository.Update(entity);
-            _unitOfWork.SaveChanges();
+            ruleSets.Append("update");
+
+            if (!IsValid(DefaultValidator, entity, ruleSets))
+            {
+                return;
+            }
+
+            try
+            {
+                CrudRepository.Update(entity);
+                UnitOfWork.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.Message);
+                Notify(NotificationType.ERROR, typeof(TEntity).Name, $"There was an error updating {typeof(TEntity).Name}.");
+            }
         }
 
         public virtual void Remove(TKey id)
         {
-            _repository.Remove(_repository.Get(id));
-            _unitOfWork.SaveChanges();
+            try
+            {
+                var entity = CrudRepository.Get(id);
+
+                if (entity == null)
+                {
+                    Notify(NotificationType.ERROR, typeof(TEntity).Name, $"{typeof(TEntity).Name} not found.");
+                    return;
+                }
+
+                CrudRepository.Remove(entity);
+                UnitOfWork.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e.Message);
+                Notify(NotificationType.ERROR, typeof(TEntity).Name, $"There was an error removing {typeof(TEntity).Name}.");
+            }
         }
 
         public override void Dispose()
         {
-            _unitOfWork?.Dispose();
-            _repository?.Dispose();
+            UnitOfWork?.Dispose();
+            CrudRepository?.Dispose();
         }
     }
 }

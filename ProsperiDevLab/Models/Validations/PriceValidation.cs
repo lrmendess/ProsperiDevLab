@@ -1,24 +1,24 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
+using ProsperiDevLab.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProsperiDevLab.Models.Validations
 {
     public class PriceValidation : AbstractValidator<Price>
     {
-        public PriceValidation()
+        public PriceValidation(ApplicationDbContext context)
         {
             RuleFor(x => x.Value)
                 .GreaterThanOrEqualTo(0)
                 .NotEmpty();
 
             RuleFor(x => x.CurrencyId)
-                .NotEmpty();
+                .NotEmpty()
+                .Must(cid => context.Currencies.Any(c => c.Id == cid))
+                .WithMessage("Currency not found.");
 
             RuleFor(x => x.Currency)
-                .SetValidator(new CurrencyValidation())
+                .SetValidator(new CurrencyValidation(context))
                 .When(c => c.Currency != null);
         }
     }

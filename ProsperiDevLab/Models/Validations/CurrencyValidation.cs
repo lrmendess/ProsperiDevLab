@@ -1,18 +1,20 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
+using ProsperiDevLab.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProsperiDevLab.Models.Validations
 {
     public class CurrencyValidation : AbstractValidator<Currency>
     {
-        public CurrencyValidation()
+        public CurrencyValidation(ApplicationDbContext context)
         {
             RuleFor(x => x.Code)
                 .NotEmpty()
                 .Length(3, 3);
+
+            RuleFor(x => x.Code)
+                .Must((x, code) => !context.Currencies.Any(c => c.Code == code && c.Id != x.Id))
+                .WithMessage("Currency code already exists.");
 
             RuleFor(x => x.Name)
                 .NotEmpty();

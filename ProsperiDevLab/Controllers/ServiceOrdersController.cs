@@ -38,9 +38,9 @@ namespace ProsperiDevLab.Controllers
         {
             var serviceOrder = _serviceOrderService.Get(id);
 
-            if (serviceOrder == null)
+            if (serviceOrder == null || _notificator.HasErrors())
             {
-                return NotFound();
+                return NotFound(_notificator.GetErrors());
             }
 
             var response = _mapper.Map<ServiceOrderResponse>(serviceOrder);
@@ -57,7 +57,7 @@ namespace ProsperiDevLab.Controllers
 
             if (_notificator.HasErrors())
             {
-                // TODO
+                return BadRequest(_notificator.GetErrors());
             }
 
             var response = _mapper.Map<ServiceOrderResponse>(serviceOrder);
@@ -68,7 +68,7 @@ namespace ProsperiDevLab.Controllers
         [HttpPut("{id}")]
         public ActionResult<ServiceOrderResponse> Put([FromRoute] long id, [FromBody] ServiceOrderRequest request)
         {
-            if (request.Id != id)
+            if (request?.Id != id)
             {
                 return NotFound();
             }
@@ -79,7 +79,7 @@ namespace ProsperiDevLab.Controllers
 
             if (_notificator.HasErrors())
             {
-                // TODO
+                return BadRequest(_notificator.GetErrors());
             }
 
             var response = _mapper.Map<ServiceOrderResponse>(serviceOrder);
@@ -94,7 +94,7 @@ namespace ProsperiDevLab.Controllers
 
             if (_notificator.HasErrors())
             {
-                // TODO
+                return BadRequest(_notificator.GetErrors());
             }
 
             return NoContent();

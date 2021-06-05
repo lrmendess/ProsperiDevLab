@@ -1,4 +1,5 @@
-﻿using ProsperiDevLab.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ProsperiDevLab.Data;
 using ProsperiDevLab.Repositories.Interfaces;
 
 namespace ProsperiDevLab.Repositories
@@ -7,10 +8,9 @@ namespace ProsperiDevLab.Repositories
         where TKey : struct
         where TEntity : class
     {
-        private readonly ApplicationDbContext _context;
+        private readonly DbContext _context;
 
-        public CrudRepository(ApplicationDbContext context)
-            : base(context)
+        public CrudRepository(DbContext context) : base(context)
         {
             _context = context;
         }

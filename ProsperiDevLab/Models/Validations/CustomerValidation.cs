@@ -1,14 +1,12 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
+using ProsperiDevLab.Data;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace ProsperiDevLab.Models.Validations
 {
     public class CustomerValidation : AbstractValidator<Customer>
     {
-        public CustomerValidation()
+        public CustomerValidation(ApplicationDbContext context)
         {
             RuleFor(x => x.Name)
                 .NotEmpty();
@@ -16,6 +14,10 @@ namespace ProsperiDevLab.Models.Validations
             RuleFor(x => x.CNPJ)
                 .NotEmpty()
                 .IsValidCNPJ();
+            
+            RuleFor(x => x.CNPJ)
+                .Must((x, cnpj) => !context.Customers.Any(c => c.CNPJ == cnpj && c.Id != x.Id))
+                .WithMessage("Customer already exists.");
         }
     }
 }
