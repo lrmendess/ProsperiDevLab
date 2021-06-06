@@ -38,9 +38,9 @@ namespace ProsperiDevLab.Controllers
         {
             var serviceOrder = _serviceOrderService.Get(id);
 
-            if (serviceOrder == null || _notificator.HasErrors())
+            if (serviceOrder == null)
             {
-                return NotFound(_notificator.GetErrors());
+                return NotFound();
             }
 
             var response = _mapper.Map<ServiceOrderResponse>(serviceOrder);
