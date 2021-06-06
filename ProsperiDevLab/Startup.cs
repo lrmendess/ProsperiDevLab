@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProsperiDevLab.Configurations;
+using ProsperiDevLab.Controllers.Filters;
 using ProsperiDevLab.Data;
 
 namespace ProsperiDevLab
@@ -21,7 +22,7 @@ namespace ProsperiDevLab
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options => options.Filters.Add<NotificationFilter>());
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

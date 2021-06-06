@@ -4,7 +4,6 @@ using ProsperiDevLab.Controllers.Contracts.Request;
 using ProsperiDevLab.Controllers.Contracts.Response;
 using ProsperiDevLab.Models;
 using ProsperiDevLab.Services.Interfaces;
-using ProsperiDevLab.Services.Notificator;
 using System.Collections.Generic;
 
 namespace ProsperiDevLab.Controllers
@@ -14,13 +13,11 @@ namespace ProsperiDevLab.Controllers
     public class ServiceOrdersController : ControllerBase
     {
         private readonly IServiceOrderService _serviceOrderService;
-        private readonly INotificator _notificator;
         private readonly IMapper _mapper;
 
-        public ServiceOrdersController(IServiceOrderService serviceOrderService, INotificator notificator, IMapper mapper)
+        public ServiceOrdersController(IServiceOrderService serviceOrderService, IMapper mapper)
         {
             _serviceOrderService = serviceOrderService;
-            _notificator = notificator;
             _mapper = mapper;
         }
 
@@ -55,14 +52,9 @@ namespace ProsperiDevLab.Controllers
 
             _serviceOrderService.Create(serviceOrder);
 
-            if (_notificator.HasErrors())
-            {
-                return BadRequest(_notificator.GetErrors());
-            }
-
             var response = _mapper.Map<ServiceOrderResponse>(serviceOrder);
 
-            return Created(string.Empty, response);
+            return Created($"api/ServiceOrders/{serviceOrder.Id}", response);
         }
 
         [HttpPut("{id}")]
@@ -77,11 +69,6 @@ namespace ProsperiDevLab.Controllers
 
             _serviceOrderService.Update(serviceOrder);
 
-            if (_notificator.HasErrors())
-            {
-                return BadRequest(_notificator.GetErrors());
-            }
-
             var response = _mapper.Map<ServiceOrderResponse>(serviceOrder);
 
             return Ok(response);
@@ -91,11 +78,6 @@ namespace ProsperiDevLab.Controllers
         public IActionResult Delete([FromRoute] long id)
         {
             _serviceOrderService.Remove(id);
-
-            if (_notificator.HasErrors())
-            {
-                return BadRequest(_notificator.GetErrors());
-            }
 
             return NoContent();
         }

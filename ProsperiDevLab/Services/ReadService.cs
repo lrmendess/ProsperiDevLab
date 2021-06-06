@@ -21,14 +21,7 @@ namespace ProsperiDevLab.Services
 
         public virtual TEntity Get(TKey id)
         {
-            var entity = ReadRepository.Get(id);
-
-            if (entity == null)
-            {
-                Notify(NotificationType.ERROR, typeof(TEntity).Name, $"{typeof(TEntity).Name} not found.");
-            }
-
-            return entity;
+            return ReadRepository.Get(id);
         }
 
         public virtual ICollection<TEntity> GetAll()
