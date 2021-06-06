@@ -1,19 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
+using ProsperiDevLab.Controllers.Contracts.Response;
 using ProsperiDevLab.Services.Notificator;
+using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ProsperiDevLab.Controllers.Filters
 {
-    public class NotificationFilter : IAsyncResultFilter
+    public class ErrorNotificationFilter : IAsyncResultFilter
     {
         private readonly INotificator _notificator;
+		private readonly IMapper _mapper;
 
-        public NotificationFilter(INotificator notificator)
+        public ErrorNotificationFilter(INotificator notificator, IMapper mapper)
         {
             _notificator = notificator;
+			_mapper = mapper;
         }
 
 		public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
@@ -23,9 +28,12 @@ namespace ProsperiDevLab.Controllers.Filters
 				context.HttpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
 				context.HttpContext.Response.ContentType = "application/json";
 
-				var notifications = JsonSerializer.Serialize(_notificator.GetErrors());
+				var errors = JsonSerializer.Serialize(new ErrorResponse
+				{
+					Errors = _mapper.Map<IEnumerable<NotificationResponse>>(_notificator.GetErrors())
+				});
 				
-				await context.HttpContext.Response.WriteAsync(notifications);
+				await context.HttpContext.Response.WriteAsync(errors);
 
 				return;
 			}

@@ -2,6 +2,7 @@
 using ProsperiDevLab.Controllers.Contracts.Request;
 using ProsperiDevLab.Controllers.Contracts.Response;
 using ProsperiDevLab.Models;
+using ProsperiDevLab.Services.Notificator;
 
 namespace ProsperiDevLab.Configurations
 {
@@ -20,6 +21,7 @@ namespace ProsperiDevLab.Configurations
             CreateMap<Employee, EmployeeResponse>();
             CreateMap<Price, PriceResponse>();
             CreateMap<ServiceOrder, ServiceOrderResponse>();
+            CreateMap<Notification, NotificationResponse>();
         }
     }
 }
