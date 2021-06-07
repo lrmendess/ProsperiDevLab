@@ -4,6 +4,6 @@ namespace ProsperiDevLab.Repositories.Interfaces
 {
     public interface ICustomerRepository : ICrudRepository<long, Customer>
     {
-        Customer GetByCnpj(string cnpj);
+        Customer GetWithServiceOrders(long id);
     }
 }

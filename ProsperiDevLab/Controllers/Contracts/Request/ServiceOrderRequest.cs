@@ -9,9 +9,7 @@ namespace ProsperiDevLab.Controllers.Contracts.Request
         public DateTime ExecutionDate { get; set; }
         public PriceRequest Price { get; set; }
         public long PriceId { get; set; }
-        public EmployeeRequest Employee { get; set; }
         public long EmployeeId { get; set; }
-        public CustomerRequest Customer { get; set; }
         public long CustomerId { get; set; }
     }
 }

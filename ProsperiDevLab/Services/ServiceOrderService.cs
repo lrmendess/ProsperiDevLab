@@ -15,60 +15,13 @@ namespace ProsperiDevLab.Services
         private readonly IEmployeeRepository _employeeRepository;
         private readonly ICustomerRepository _customerRepository;
 
-        public ServiceOrderService(IUnitOfWork unitOfWork, IServiceOrderRepository serviceOrderRepository,
-            IPriceRepository priceRepository, IEmployeeRepository employeeRepository, ICustomerRepository customerRepository,
-            ServiceOrderValidation serviceOrderValidator, INotificator notificator, ILogger<ServiceOrderService> logger)
+        public ServiceOrderService(IUnitOfWork unitOfWork, IServiceOrderRepository serviceOrderRepository, IPriceRepository priceRepository, IEmployeeRepository employeeRepository, ICustomerRepository customerRepository, ServiceOrderValidation serviceOrderValidator, INotificator notificator, ILogger<ServiceOrderService> logger)
             : base(unitOfWork, serviceOrderRepository, serviceOrderValidator, notificator, logger)
         {
             _serviceOrderRepository = serviceOrderRepository;
             _priceRepository = priceRepository;
             _employeeRepository = employeeRepository;
             _customerRepository = customerRepository;
-        }
-
-        public override void Create(ServiceOrder serviceOrder, params string[] ruleSets)
-        {
-            serviceOrder.PriceId = 0;
-            
-            if (_employeeRepository.Get(serviceOrder.EmployeeId) != null)
-            {
-                serviceOrder.Employee = null;
-            }
-            else
-            {
-                var employee = _employeeRepository.GetByCpf(serviceOrder?.Employee?.CPF);
-            
-                if (employee != null)
-                {
-                    serviceOrder.Employee = null;
-                    serviceOrder.EmployeeId = employee.Id;
-                }
-                else
-                {
-                    serviceOrder.EmployeeId = 0;
-                }
-            }
-            
-            if (_customerRepository.Get(serviceOrder.CustomerId) != null)
-            {
-                serviceOrder.Customer = null;
-            }
-            else
-            {
-                var customer = _customerRepository.GetByCnpj(serviceOrder?.Customer?.CNPJ);
-            
-                if (customer != null)
-                {
-                    serviceOrder.Customer = null;
-                    serviceOrder.CustomerId = customer.Id;
-                }
-                else
-                {
-                    serviceOrder.CustomerId = 0;
-                }
-            }
-
-            base.Create(serviceOrder, ruleSets);
         }
 
         public override void Remove(long id)

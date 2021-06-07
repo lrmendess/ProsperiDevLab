@@ -22,8 +22,8 @@ Para restaurar as dependências do projeto .NET e executar a API, utilize os com
 dotnet restore
 dotnet run
 ```
-A aplicação encontra-se disponível em [http://localhost:5000](http://localhost:5000) ou [https://localhost:5001](https://localhost:5001), enquanto que a documentação pode ser consultada em
-**[TODO](http://localhost:5000)**.
+A API encontra-se disponível em [http://localhost:5000/api](http://localhost:5000/api) ou [https://localhost:5001/api](https://localhost:5001/api) (caso utilize o IIS, acesse por [https://localhost:44390/api](https://localhost:44390/api)) enquanto que a documentação pode ser consultada em
+`<HOST>/swagger/index.html`.
 
 ### Angular UI
 Para restaurar as dependências e executar a aplicação Angular, navegue até o diretório `ProsperiDevLab/ClientApp/` e utilize os comandos que se seguem:

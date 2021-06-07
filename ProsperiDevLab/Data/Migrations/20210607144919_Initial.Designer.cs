@@ -10,7 +10,7 @@ using ProsperiDevLab.Data;
 namespace ProsperiDevLab.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210604212909_Initial")]
+    [Migration("20210607144919_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,6 +47,29 @@ namespace ProsperiDevLab.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Currencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            Code = "BRL",
+                            Name = "Real",
+                            Symbol = "R$"
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            Code = "USD",
+                            Name = "Dollar",
+                            Symbol = "$"
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            Code = "EUR",
+                            Name = "Euro",
+                            Symbol = "€"
+                        });
                 });
 
             modelBuilder.Entity("ProsperiDevLab.Models.Customer", b =>

@@ -1,6 +1,8 @@
-﻿using ProsperiDevLab.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ProsperiDevLab.Data;
 using ProsperiDevLab.Models;
 using ProsperiDevLab.Repositories.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ProsperiDevLab.Repositories
@@ -15,6 +17,13 @@ namespace ProsperiDevLab.Repositories
             _context = context;
         }
 
-        public Employee GetByCpf(string cpf) => _context.Employees.FirstOrDefault(e => e.CPF == cpf);
+        public Employee GetWithServiceOrders(long id)
+        {
+            return _context.Employees
+                .Include(x => x.ServiceOrders)
+                .ThenInclude(x => x.Price)
+                .ThenInclude(x => x.Currency)
+                .FirstOrDefault(x => x.Id == id);
+        }
     }
 }

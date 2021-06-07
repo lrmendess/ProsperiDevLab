@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using ProsperiDevLab.Controllers.Contracts.Request;
 using ProsperiDevLab.Controllers.Contracts.Response;
+using ProsperiDevLab.Models;
 using ProsperiDevLab.Services.Interfaces;
 using System.Collections.Generic;
 
@@ -26,6 +28,26 @@ namespace ProsperiDevLab.Controllers
             var response = _mapper.Map<IEnumerable<CustomerResponse>>(customers);
 
             return Ok(response);
+        }
+
+        [HttpPost]
+        public ActionResult<CustomerResponse> Post([FromBody] CustomerRequest request)
+        {
+            var customer = _mapper.Map<Customer>(request);
+
+            _customerService.Create(customer);
+
+            var response = _mapper.Map<CustomerResponse>(customer);
+
+            return Created($"api/Customers/{customer.Id}", response);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete([FromRoute] long id)
+        {
+            _customerService.Remove(id);
+
+            return NoContent();
         }
     }
 }

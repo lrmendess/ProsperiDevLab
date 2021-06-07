@@ -4,7 +4,7 @@ using System;
 
 namespace ProsperiDevLab.Services.Interfaces
 {
-    public interface ICustomerService : IReadService<long, Customer, ICustomerRepository>, IDisposable
+    public interface ICustomerService : ICrudService<long, Customer, ICustomerRepository>, IDisposable
     {
 
     }

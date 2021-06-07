@@ -105,6 +105,21 @@ namespace ProsperiDevLab.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Currencies",
+                columns: new[] { "Id", "Code", "Name", "Symbol" },
+                values: new object[] { 1L, "BRL", "Real", "R$" });
+
+            migrationBuilder.InsertData(
+                table: "Currencies",
+                columns: new[] { "Id", "Code", "Name", "Symbol" },
+                values: new object[] { 2L, "USD", "Dollar", "$" });
+
+            migrationBuilder.InsertData(
+                table: "Currencies",
+                columns: new[] { "Id", "Code", "Name", "Symbol" },
+                values: new object[] { 3L, "EUR", "Euro", "€" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Currencies_Code",
                 table: "Currencies",

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using ProsperiDevLab.Configurations;
 using ProsperiDevLab.Controllers.Filters;
 using ProsperiDevLab.Data;
@@ -23,6 +24,7 @@ namespace ProsperiDevLab
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers(options => options.Filters.Add<ErrorNotificationFilter>());
+            services.AddHealthChecks();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -30,6 +32,9 @@ namespace ProsperiDevLab
             services
                 .ResolveDependencies()
                 .AddAutoMapper(typeof(Startup));
+
+            services.AddSwaggerGen(c =>
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProsperiDevLab", Version = "v1" }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +50,14 @@ namespace ProsperiDevLab
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            });
+
+            app.UseHealthChecks("/health-check");
 
             app.UseEndpoints(endpoints =>
             {

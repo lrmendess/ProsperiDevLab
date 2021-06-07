@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace ProsperiDevLab.Models
 {
-    public class Employee
+    public class Employee : NaturalPerson
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
-        public string CPF { get; set; }
-
         /* EF Associations */
         public ICollection<ServiceOrder> ServiceOrders { get; set; }
     }

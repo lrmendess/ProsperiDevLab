@@ -4,7 +4,7 @@ using System;
 
 namespace ProsperiDevLab.Services.Interfaces
 {
-    public interface IEmployeeService : IReadService<long, Employee, IEmployeeRepository>, IDisposable
+    public interface IEmployeeService : ICrudService<long, Employee, IEmployeeRepository>, IDisposable
     {
 
     }

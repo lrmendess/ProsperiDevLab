@@ -1,4 +1,5 @@
-﻿using ProsperiDevLab.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ProsperiDevLab.Data;
 using ProsperiDevLab.Models;
 using ProsperiDevLab.Repositories.Interfaces;
 using System.Linq;
@@ -15,6 +16,13 @@ namespace ProsperiDevLab.Repositories
             _context = context;
         }
 
-        public Customer GetByCnpj(string cnpj) => _context.Customers.FirstOrDefault(c => c.CNPJ == cnpj);
+        public Customer GetWithServiceOrders(long id)
+        {
+            return _context.Customers
+                .Include(x => x.ServiceOrders)
+                .ThenInclude(x => x.Price)
+                .ThenInclude(x => x.Currency)
+                .FirstOrDefault(x => x.Id == id);
+        }
     }
 }
