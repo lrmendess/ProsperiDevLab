@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptEnableIncrementalMSBuild>false</TypeScriptEnableIncrementalMSBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Remove="ClientApp\" />
+    <Folder Include="ClientApp\" />
   </ItemGroup>
 
   <ItemGroup>
