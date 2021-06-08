@@ -1,7 +1,6 @@
 ﻿using ProsperiDevLab.Models;
 using ProsperiDevLab.Repositories.Interfaces;
 using System;
-using System.Collections.Generic;
 
 namespace ProsperiDevLab.Services.Interfaces
 {

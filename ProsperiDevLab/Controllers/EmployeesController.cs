@@ -80,7 +80,6 @@ namespace ProsperiDevLab.Controllers
             _employeeService.Remove(id);
 
             return NoContent();
-
         }
     }
 }

@@ -2,7 +2,6 @@
 using ProsperiDevLab.Data;
 using ProsperiDevLab.Models;
 using ProsperiDevLab.Repositories.Interfaces;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace ProsperiDevLab.Repositories
