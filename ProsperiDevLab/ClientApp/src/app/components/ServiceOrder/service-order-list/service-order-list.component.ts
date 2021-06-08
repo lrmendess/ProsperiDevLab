@@ -1,10 +1,11 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ServiceOrder } from 'src/app/models/service-order.model';
 import { ServiceOrderService } from 'src/app/services/service-order.service';
-import { CreateServiceOrderFormComponentDialog } from '../create-service-order-form-dialog/create-service-order-form-dialog.component';
+import { CreateServiceOrderFormDialogComponent } from '../create-service-order-form-dialog/create-service-order-form-dialog.component';
 import { DeleteServiceOrderDialogComponent } from '../delete-service-order-form-dialog/delete-service-order-form-dialog.component';
 
 @Component({
@@ -16,10 +17,8 @@ export class ServiceOrderListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  /**
-   * Table config
-   */
-  serviceOrders!: ServiceOrder[];
+  serviceOrders: ServiceOrder[] = [];
+
   dataSource!: MatTableDataSource<ServiceOrder>;
   serviceOrdersColumns: string[] = [
     'number', 'title', 'customer', 'price',
@@ -32,12 +31,8 @@ export class ServiceOrderListComponent implements OnInit {
   };
 
   constructor(
-    public dialog: MatDialog,
+    private _dialog: MatDialog,
     private _serviceOrderService: ServiceOrderService) { }
-
-  ngAfterViewInit() {
-    // this.dataSource.paginator = this.paginator;
-  }
 
   ngOnInit(): void {
     this.retrieveAll();
@@ -59,8 +54,8 @@ export class ServiceOrderListComponent implements OnInit {
   }
 
   openCreateServiceOrderDialog(serviceOrder?: ServiceOrder): void {
-    this.dialog
-      .open(CreateServiceOrderFormComponentDialog, { ...this.dialogUIConfig, data: serviceOrder })
+    this._dialog
+      .open(CreateServiceOrderFormDialogComponent, { ...this.dialogUIConfig, data: serviceOrder })
       .afterClosed()
       .subscribe(() => {
         this.retrieveAll();
@@ -68,7 +63,7 @@ export class ServiceOrderListComponent implements OnInit {
   }
 
   openDeleteServiceOrderDialog(serviceOrder: ServiceOrder): void {
-    this.dialog
+    this._dialog
       .open(DeleteServiceOrderDialogComponent, {...this.dialogUIConfig, data: serviceOrder })
       .afterClosed()
       .subscribe(() => {

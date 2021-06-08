@@ -21,7 +21,6 @@ namespace ProsperiDevLab.Configurations
             CreateMap<Employee, EmployeeResponse>();
             CreateMap<Price, PriceResponse>();
             CreateMap<ServiceOrder, ServiceOrderResponse>();
-            CreateMap<Notification, NotificationResponse>();
         }
     }
 }

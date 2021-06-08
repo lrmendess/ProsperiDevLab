@@ -24,13 +24,13 @@ namespace ProsperiDevLab.Services
 
             if (customer == null)
             {
-                Notify(NotificationType.ERROR, nameof(Customer), $"{nameof(Customer)} not found.");
+                Notify(NotificationType.ERROR, string.Empty, $"{nameof(Customer)} not found.");
                 return;
             }
 
             if (customer.ServiceOrders.Any())
             {
-                Notify(NotificationType.ERROR, nameof(Customer), "An customer associated with service orders cannot be deleted.");
+                Notify(NotificationType.ERROR, string.Empty, "An customer associated with service orders cannot be deleted.");
                 return;
             }
 

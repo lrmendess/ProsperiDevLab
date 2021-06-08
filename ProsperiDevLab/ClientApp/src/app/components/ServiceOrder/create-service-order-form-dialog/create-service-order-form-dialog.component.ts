@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Currency } from 'src/app/models/currency.model';
 import { Customer } from 'src/app/models/customer.model';
 import { Employee } from 'src/app/models/employee.model';
@@ -15,23 +16,34 @@ import { ServiceOrderService } from 'src/app/services/service-order.service';
   templateUrl: './create-service-order-form-dialog.component.html',
   styleUrls: ['./create-service-order-form-dialog.component.scss']
 })
-export class CreateServiceOrderFormComponentDialog implements OnInit {
+export class CreateServiceOrderFormDialogComponent implements OnInit {
 
   serviceOrder: ServiceOrder = { price: {} as Price } as ServiceOrder;
   
+  errors: any = {};
+
   currencies: Currency[] = [];
   employees:  Employee[] = [];
   customers:  Customer[] = [];
 
   constructor(
-    private _dialogRef: MatDialogRef<CreateServiceOrderFormComponentDialog>,
-    private _currencieService: CurrencyService,
+    @Inject(MAT_DIALOG_DATA) public _serviceOrder: ServiceOrder,
+    private _dialogRef: MatDialogRef<CreateServiceOrderFormDialogComponent>,
+    private _snackBar: MatSnackBar,
+    private _currencyService: CurrencyService,
     private _employeeService: EmployeeService,
     private _customerService: CustomerService,
     private _serviceOrderService: ServiceOrderService) { }
 
   ngOnInit(): void {
-    this._currencieService.getAll().subscribe(
+    if (this._serviceOrder) {
+      this.serviceOrder =          { ...this._serviceOrder           };
+      this.serviceOrder.price =    { ...this._serviceOrder.price     };
+      this.serviceOrder.customer = { ...this._serviceOrder.customer! };
+      this.serviceOrder.employee = { ...this._serviceOrder.employee! };
+    }
+
+    this._currencyService.getAll().subscribe(
       response => {
         this.currencies = response;
       },
@@ -59,33 +71,46 @@ export class CreateServiceOrderFormComponentDialog implements OnInit {
     );
   }
 
-  onSubmit(serviceOrder?: ServiceOrder): void {
-    console.log(this.serviceOrder);
+  onSubmit(): void {
+    this.errors = {};
 
-    // Edit
-    if (serviceOrder) {
+    if (this._serviceOrder) {
       this._serviceOrderService
-        .update(serviceOrder.id!, serviceOrder)
+        .update(this._serviceOrder.id!, this.serviceOrder)
         .subscribe(
-          response => {
-            this._dialogRef.close();
+          success => {
+            this._dialogRef.close({ data: success });
           },
-          error => {
-            console.log(error);
+          fail => {
+            this.errors = fail.error.Errors;
+            this.showSnackBarErrors();
           }
-        )
-    // Create
+        );
     } else {
       this._serviceOrderService
         .create(this.serviceOrder)
         .subscribe(
-          response => {
-            this._dialogRef.close();
+          success => {
+            this._dialogRef.close({ data: success });
           },
-          error => {
-            console.log(error);
+          fail => {
+            this.errors = fail.error.Errors;
+            this.showSnackBarErrors();
           }
         );
+    }
+  }
+
+  showSnackBarErrors(): void {
+    const snackBarConfig: any = {
+      duration: 3000,
+      verticalPosition: 'top',
+    };
+
+    const emptyErrors = this.errors[''];
+
+    if (emptyErrors) {
+      this._snackBar.open(emptyErrors[0], 'OK', snackBarConfig);
     }
   }
 

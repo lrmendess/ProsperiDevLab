@@ -1,30 +1,30 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ServiceOrder } from 'src/app/models/service-order.model';
-import { ServiceOrderService } from 'src/app/services/service-order.service';
+import { Employee } from 'src/app/models/employee.model';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
-  selector: 'app-delete-service-order-form-dialog',
-  templateUrl: './delete-service-order-form-dialog.component.html',
-  styleUrls: ['./delete-service-order-form-dialog.component.scss']
+  selector: 'app-delete-employee-form-dialog',
+  templateUrl: './delete-employee-form-dialog.component.html',
+  styleUrls: ['./delete-employee-form-dialog.component.scss']
 })
-export class DeleteServiceOrderDialogComponent implements OnInit {
+export class DeleteEmployeeFormDialogComponent implements OnInit {
 
   errors: any = {};
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private _serviceOrder: ServiceOrder,
+    @Inject(MAT_DIALOG_DATA) private _employee: Employee,
     private _snackBar: MatSnackBar,
-    private _dialogRef: MatDialogRef<DeleteServiceOrderDialogComponent>,
-    private _serviceOrderService: ServiceOrderService) { }
+    private _dialogRef: MatDialogRef<DeleteEmployeeFormDialogComponent>,
+    private _employeeService: EmployeeService) { }
 
   ngOnInit(): void {
 
   }
 
   onSubmit(): void {
-    this._serviceOrderService.delete(this._serviceOrder.id!).subscribe(
+    this._employeeService.delete(this._employee.id!).subscribe(
       success => {
         this._dialogRef.close({ data: success });
       },
@@ -47,5 +47,5 @@ export class DeleteServiceOrderDialogComponent implements OnInit {
       this._snackBar.open(emptyErrors[0], 'OK', snackBarConfig);
     }
   }
-
+  
 }

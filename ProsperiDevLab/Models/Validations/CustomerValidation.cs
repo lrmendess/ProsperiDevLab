@@ -9,11 +9,13 @@ namespace ProsperiDevLab.Models.Validations
         public CustomerValidation(ApplicationDbContext context)
         {
             RuleFor(x => x.Name)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(255);
 
             RuleFor(x => x.CNPJ)
                 .NotEmpty()
-                .IsValidCNPJ();
+                .IsValidCNPJ()
+                .WithMessage("CNPJ is invalid.");
             
             RuleFor(x => x.CNPJ)
                 .Must((x, cnpj) => !context.Customers.Any(c => c.CNPJ == cnpj && c.Id != x.Id))

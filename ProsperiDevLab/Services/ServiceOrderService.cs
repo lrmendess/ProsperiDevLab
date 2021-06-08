@@ -30,7 +30,7 @@ namespace ProsperiDevLab.Services
 
             if (serviceOrder == null)
             {
-                Notify(NotificationType.ERROR, nameof(ServiceOrder), $"{nameof(ServiceOrder)} not found.");
+                Notify(NotificationType.ERROR, string.Empty, $"{nameof(ServiceOrder)} not found.");
                 return;
             }
 
@@ -48,7 +48,7 @@ namespace ProsperiDevLab.Services
                 {
                     Transaction.Rollback();
                     Logger.LogError(e.Message);
-                    Notify(NotificationType.ERROR, nameof(ServiceOrder), $"There was an error removing {nameof(ServiceOrder)}.");
+                    Notify(NotificationType.ERROR, string.Empty, $"There was an error removing {nameof(ServiceOrder)}.");
                 }
             }
         }

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateServiceOrderFormComponent } from './create-service-order-form-dialog.component';
+import { CreateServiceOrderFormDialogComponent } from './create-service-order-form-dialog.component';
 
 describe('CreateServiceOrderFormComponent', () => {
-  let component: CreateServiceOrderFormComponent;
-  let fixture: ComponentFixture<CreateServiceOrderFormComponent>;
+  let component: CreateServiceOrderFormDialogComponent;
+  let fixture: ComponentFixture<CreateServiceOrderFormDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CreateServiceOrderFormComponent ]
+      declarations: [ CreateServiceOrderFormDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateServiceOrderFormComponent);
+    fixture = TestBed.createComponent(CreateServiceOrderFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

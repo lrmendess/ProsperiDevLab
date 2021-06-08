@@ -9,11 +9,13 @@ namespace ProsperiDevLab.Models.Validations
         public EmployeeValidation(ApplicationDbContext context)
         {
             RuleFor(x => x.Name)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(255);
 
             RuleFor(x => x.CPF)
                 .NotEmpty()
-                .IsValidCPF();
+                .IsValidCPF()
+                .WithMessage("CPF is invalid.");
 
             RuleFor(x => x.CPF)
                 .Must((x, cpf) => !context.Employees.Any(e => e.CPF == cpf && e.Id != x.Id))

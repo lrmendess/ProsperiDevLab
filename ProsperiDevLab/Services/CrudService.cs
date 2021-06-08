@@ -44,7 +44,7 @@ namespace ProsperiDevLab.Services
             catch (Exception e)
             {
                 Logger.LogError(e.Message);
-                Notify(NotificationType.ERROR, typeof(TEntity).Name, $"There was an error adding {typeof(TEntity).Name}.");
+                Notify(NotificationType.ERROR, string.Empty, $"There was an error adding {typeof(TEntity).Name}.");
             }
         }
 
@@ -65,7 +65,7 @@ namespace ProsperiDevLab.Services
             catch (Exception e)
             {
                 Logger.LogError(e.Message);
-                Notify(NotificationType.ERROR, typeof(TEntity).Name, $"There was an error updating {typeof(TEntity).Name}.");
+                Notify(NotificationType.ERROR, string.Empty, $"There was an error updating {typeof(TEntity).Name}.");
             }
         }
 
@@ -77,7 +77,7 @@ namespace ProsperiDevLab.Services
 
                 if (entity == null)
                 {
-                    Notify(NotificationType.ERROR, typeof(TEntity).Name, $"{typeof(TEntity).Name} not found.");
+                    Notify(NotificationType.ERROR, string.Empty, $"{typeof(TEntity).Name} not found.");
                     return;
                 }
 
@@ -87,7 +87,7 @@ namespace ProsperiDevLab.Services
             catch (Exception e)
             {
                 Logger.LogError(e.Message);
-                Notify(NotificationType.ERROR, typeof(TEntity).Name, $"There was an error removing {typeof(TEntity).Name}.");
+                Notify(NotificationType.ERROR, string.Empty, $"There was an error removing {typeof(TEntity).Name}.");
             }
         }
 

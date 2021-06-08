@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using ProsperiDevLab.Data;
-using System;
 using System.Linq;
 
 namespace ProsperiDevLab.Models.Validations
@@ -21,9 +20,9 @@ namespace ProsperiDevLab.Models.Validations
                 .NotEmpty()
                 .MaximumLength(255);
 
-            RuleFor(x => x.ExecutionDate)
-                .NotEmpty()
-                .LessThanOrEqualTo(DateTime.Now);
+            RuleFor(x => x.ExecutionDate.Date)
+                .NotEmpty();
+//              .LessThanOrEqualTo(DateTime.UtcNow.Date);
 
             RuleFor(x => x.Price)
                 .SetValidator(new PriceValidation(context))
@@ -40,7 +39,8 @@ namespace ProsperiDevLab.Models.Validations
             RuleSet("update", () =>
             {
                 RuleFor(x => x.PriceId)
-                    .NotEmpty();
+                    .NotEmpty()
+                    .Equal(x => x.Price.Id);
             });
         }
     }

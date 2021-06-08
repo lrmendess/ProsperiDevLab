@@ -24,13 +24,13 @@ namespace ProsperiDevLab.Services
 
             if (employee == null)
             {
-                Notify(NotificationType.ERROR, nameof(Employee), $"{nameof(Employee)} not found.");
+                Notify(NotificationType.ERROR, string.Empty, $"{nameof(Employee)} not found.");
                 return;
             }
 
             if (employee.ServiceOrders.Any())
             {
-                Notify(NotificationType.ERROR, nameof(Employee), "An employee associated with service orders cannot be deleted.");
+                Notify(NotificationType.ERROR, string.Empty, "An employee associated with service orders cannot be deleted.");
                 return;
             }
 

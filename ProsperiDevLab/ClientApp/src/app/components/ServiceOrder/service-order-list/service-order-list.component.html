@@ -4,7 +4,7 @@
     Create Service Order
 </a>
 
-<table mat-table [dataSource]="dataSource">
+<table class="prosperi-table" mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="number">
         <th mat-header-cell *matHeaderCellDef> No. </th>
         <td mat-cell *matCellDef="let element"> {{ element.number }} </td>
@@ -26,13 +26,13 @@
     </ng-container>
     
     <ng-container matColumnDef="executionDate">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let element"> {{ element.executionDate }} </td>
+        <th mat-header-cell *matHeaderCellDef> Date (MDY) </th>
+        <td mat-cell *matCellDef="let element"> {{ element.executionDate | date: 'MM/dd/yyyy' }} </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
-        <th mat-header-cell  *matHeaderCellDef></th>
-        <td class="table__column__actions" mat-cell *matCellDef="let element" >
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td class="prosperi-table__column__actions" mat-cell *matCellDef="let element" >
             <button mat-stroked-button
                 (click)="openCreateServiceOrderDialog(element)">Edit</button>
             <button color="warn" mat-flat-button

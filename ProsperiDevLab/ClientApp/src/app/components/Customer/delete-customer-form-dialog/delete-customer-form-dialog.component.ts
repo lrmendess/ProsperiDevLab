@@ -1,30 +1,30 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ServiceOrder } from 'src/app/models/service-order.model';
-import { ServiceOrderService } from 'src/app/services/service-order.service';
+import { Customer } from 'src/app/models/customer.model';
+import { CustomerService } from 'src/app/services/customer.service';
 
 @Component({
-  selector: 'app-delete-service-order-form-dialog',
-  templateUrl: './delete-service-order-form-dialog.component.html',
-  styleUrls: ['./delete-service-order-form-dialog.component.scss']
+  selector: 'app-delete-customer-form-dialog',
+  templateUrl: './delete-customer-form-dialog.component.html',
+  styleUrls: ['./delete-customer-form-dialog.component.scss']
 })
-export class DeleteServiceOrderDialogComponent implements OnInit {
+export class DeleteCustomerFormDialogComponent implements OnInit {
 
-  errors: any = {};
+errors: any = {};
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private _serviceOrder: ServiceOrder,
+    @Inject(MAT_DIALOG_DATA) private _customer: Customer,
     private _snackBar: MatSnackBar,
-    private _dialogRef: MatDialogRef<DeleteServiceOrderDialogComponent>,
-    private _serviceOrderService: ServiceOrderService) { }
+    private _dialogRef: MatDialogRef<DeleteCustomerFormDialogComponent>,
+    private _customerService: CustomerService) { }
 
   ngOnInit(): void {
 
   }
 
   onSubmit(): void {
-    this._serviceOrderService.delete(this._serviceOrder.id!).subscribe(
+    this._customerService.delete(this._customer.id!).subscribe(
       success => {
         this._dialogRef.close({ data: success });
       },

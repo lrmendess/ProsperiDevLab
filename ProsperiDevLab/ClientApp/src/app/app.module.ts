@@ -19,18 +19,31 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { CreateServiceOrderFormComponentDialog } from './components/ServiceOrder/create-service-order-form-dialog/create-service-order-form-dialog.component';
+import { CreateServiceOrderFormDialogComponent } from './components/ServiceOrder/create-service-order-form-dialog/create-service-order-form-dialog.component';
 import { ServiceOrderListComponent } from './components/ServiceOrder/service-order-list/service-order-list.component';
 import { DeleteServiceOrderDialogComponent } from './components/ServiceOrder/delete-service-order-form-dialog/delete-service-order-form-dialog.component';
 import { PROSPERI_DATE_FORMATS } from './configs/prosperi-date-format.config';
+import { EmployeeListComponent } from './components/Employee/employee-list/employee-list.component';
+import { DeleteEmployeeFormDialogComponent } from './components/Employee/delete-employee-form-dialog/delete-employee-form-dialog.component';
+import { CreateEmployeeFormDialogComponent } from './components/Employee/create-employee-form-dialog/create-employee-form-dialog.component';
+import { CustomerListComponent } from './components/Customer/customer-list/customer-list.component';
+import { CreateCustomerFormDialogComponent } from './components/Customer/create-customer-form-dialog/create-customer-form-dialog.component';
+import { DeleteCustomerFormDialogComponent } from './components/Customer/delete-customer-form-dialog/delete-customer-form-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ServiceOrderListComponent,
-    CreateServiceOrderFormComponentDialog,
-    DeleteServiceOrderDialogComponent
+    CreateServiceOrderFormDialogComponent,
+    DeleteServiceOrderDialogComponent,
+    EmployeeListComponent,
+    DeleteEmployeeFormDialogComponent,
+    CreateEmployeeFormDialogComponent,
+    CustomerListComponent,
+    CreateCustomerFormDialogComponent,
+    DeleteCustomerFormDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +64,8 @@ import { PROSPERI_DATE_FORMATS } from './configs/prosperi-date-format.config';
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRippleModule
+    MatRippleModule,
+    MatSnackBarModule
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: PROSPERI_DATE_FORMATS }

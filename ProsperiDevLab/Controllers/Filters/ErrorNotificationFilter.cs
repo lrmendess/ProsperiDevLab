@@ -28,10 +28,19 @@ namespace ProsperiDevLab.Controllers.Filters
 				context.HttpContext.Response.StatusCode = (int) HttpStatusCode.BadRequest;
 				context.HttpContext.Response.ContentType = "application/json";
 
-				var errors = JsonSerializer.Serialize(new ErrorResponse
+				var errorsDict = new Dictionary<string, List<string>>();
+
+				_notificator.GetErrors().ForEach(err =>
 				{
-					Errors = _mapper.Map<IEnumerable<NotificationResponse>>(_notificator.GetErrors())
+					if (!errorsDict.ContainsKey(err.Property))
+                    {
+						errorsDict[err.Property] = new List<string>();
+                    }
+
+					errorsDict[err.Property].Add(err.Message);
 				});
+
+				var errors = JsonSerializer.Serialize(new { Errors = errorsDict });
 				
 				await context.HttpContext.Response.WriteAsync(errors);
 
