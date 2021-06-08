@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ServiceOrder } from 'src/app/models/service-order.model';
 import { ServiceOrderService } from 'src/app/services/service-order.service';
 
@@ -11,17 +11,23 @@ import { ServiceOrderService } from 'src/app/services/service-order.service';
 export class DeleteServiceOrderDialogComponent implements OnInit {
 
   constructor(
-    private _serviceOrderService: ServiceOrderService,
-    @Inject(MAT_DIALOG_DATA) public serviceOrder: ServiceOrder
-    ) { }
+    @Inject(MAT_DIALOG_DATA) public serviceOrder: ServiceOrder,
+    private dialogRef: MatDialogRef<DeleteServiceOrderDialogComponent>,
+    private _serviceOrderService: ServiceOrderService) { }
 
   ngOnInit(): void {
+
   }
 
   deleteServiceOrder(): void {
-    console.log(this.serviceOrder);
-
-    this._serviceOrderService.delete(this.serviceOrder.id!);
+    this._serviceOrderService.delete(this.serviceOrder.id!).subscribe(
+      response => {
+        this.dialogRef.close();
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
 }

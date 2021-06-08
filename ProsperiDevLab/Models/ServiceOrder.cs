@@ -8,6 +8,7 @@ namespace ProsperiDevLab.Models
     public class ServiceOrder
     {
         public long Id { get; set; }
+        public string Title { get; set; }
         public string Number { get; set; }
         public DateTime ExecutionDate { get; set; }
 

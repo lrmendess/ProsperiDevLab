@@ -20,6 +20,10 @@ namespace ProsperiDevLab.Models.Mappings
             builder.HasIndex(x => x.Number)
                 .IsUnique();
 
+            builder.Property(x => x.Title)
+                .IsRequired()
+                .HasMaxLength(255);
+
             builder.Property(x => x.ExecutionDate)
                 .IsRequired();
 

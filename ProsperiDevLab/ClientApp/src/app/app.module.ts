@@ -18,16 +18,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS } from '@angular/material/core';
 
-import { CreateServiceOrderFormComponent } from './components/ServiceOrder/create-service-order-form-dialog/create-service-order-form-dialog.component';
+import { CreateServiceOrderFormComponentDialog } from './components/ServiceOrder/create-service-order-form-dialog/create-service-order-form-dialog.component';
 import { ServiceOrderListComponent } from './components/ServiceOrder/service-order-list/service-order-list.component';
 import { DeleteServiceOrderDialogComponent } from './components/ServiceOrder/delete-service-order-form-dialog/delete-service-order-form-dialog.component';
+import { PROSPERI_DATE_FORMATS } from './configs/prosperi-date-format.config';
 
 @NgModule({
   declarations: [
     AppComponent,
     ServiceOrderListComponent,
-    CreateServiceOrderFormComponent,
+    CreateServiceOrderFormComponentDialog,
     DeleteServiceOrderDialogComponent
   ],
   imports: [
@@ -47,9 +49,13 @@ import { DeleteServiceOrderDialogComponent } from './components/ServiceOrder/del
     MatInputModule,
     MatSelectModule,
     MatDialogModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRippleModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: PROSPERI_DATE_FORMATS }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -17,23 +17,24 @@
     
     <ng-container matColumnDef="customer">
         <th mat-header-cell *matHeaderCellDef> Customer </th>
-        <td mat-cell *matCellDef="let element"> -- </td>
+        <td mat-cell *matCellDef="let element"> {{ element.customer.name }} </td>
     </ng-container>
 
     <ng-container matColumnDef="price">
         <th mat-header-cell *matHeaderCellDef> Price </th>
-        <td mat-cell *matCellDef="let element"> R$0,00 </td>
+        <td mat-cell *matCellDef="let element"> {{ element.price.value.toFixed(2) }} {{ element.price.currency.code }} </td>
     </ng-container>
     
     <ng-container matColumnDef="executionDate">
         <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let element"> yyyy-mm-dd </td>
+        <td mat-cell *matCellDef="let element"> {{ element.executionDate }} </td>
     </ng-container>
 
     <ng-container matColumnDef="actions">
         <th mat-header-cell  *matHeaderCellDef></th>
         <td class="table__column__actions" mat-cell *matCellDef="let element" >
-            <button mat-stroked-button>Edit</button>
+            <button mat-stroked-button
+                (click)="openCreateServiceOrderDialog(element)">Edit</button>
             <button color="warn" mat-flat-button
                 (click)="openDeleteServiceOrderDialog(element)">Delete</button>
         </td>

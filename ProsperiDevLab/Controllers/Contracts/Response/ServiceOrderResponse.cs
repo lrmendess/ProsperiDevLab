@@ -9,6 +9,7 @@ namespace ProsperiDevLab.Controllers.Contracts.Response
     {
         public long Id { get; set; }
         public string Number { get; set; }
+        public string Title { get; set; }
         public DateTime ExecutionDate { get; set; }
         public PriceResponse Price { get; set; }
         public long PriceId { get; set; }

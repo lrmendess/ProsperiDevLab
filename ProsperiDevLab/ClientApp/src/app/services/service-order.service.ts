@@ -1,37 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 
-import { Observable} from "rxjs";
-
 import { ServiceOrder } from '../models/service-order.model';
+import { CrudService } from './crud.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ServiceOrderService {
+export class ServiceOrderService extends CrudService<number, ServiceOrder> {
 
-  private apiPath: string = "api/serviceOrders"
-  
-  constructor(private http: HttpClient) { }
-
-  get(id: Number) {
-    return this.http.get(`${this.apiPath}/${id}`);
-  }
-
-  getAll(): Observable<ServiceOrder[]> {
-    return this.http.get<ServiceOrder[]>(this.apiPath);
-  }
-
-  create(serviceOrder: any): Observable<ServiceOrder> {
-    return this.http.post<ServiceOrder>(this.apiPath, { serviceOrder });
-  }
-
-  update(serviceOrder: any): Observable<ServiceOrder> {
-    return this.http.put<ServiceOrder>(`${this.apiPath}/${serviceOrder.id}`, serviceOrder);
-  }
-
-  delete(id: Number) {
-    return this.http.delete(`${this.apiPath}/${id}`);
+  constructor(protected _httpClient: HttpClient) {
+    super(_httpClient, "https://localhost:44390/api/serviceOrders");
   }
 
 }

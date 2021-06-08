@@ -10,11 +10,16 @@ namespace ProsperiDevLab.Models.Validations
         public ServiceOrderValidation(ApplicationDbContext context)
         {
             RuleFor(x => x.Number)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(63);
 
             RuleFor(x => x.Number)
                 .Must((x, number) => !context.ServiceOrders.Any(s => s.Number == number && s.Id != x.Id))
                 .WithMessage("Service order number already exists.");
+
+            RuleFor(x => x.Title)
+                .NotEmpty()
+                .MaximumLength(255);
 
             RuleFor(x => x.ExecutionDate)
                 .NotEmpty()

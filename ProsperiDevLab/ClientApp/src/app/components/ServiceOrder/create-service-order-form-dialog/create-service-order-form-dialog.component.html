@@ -3,7 +3,7 @@
 </h2>
 
 <mat-dialog-content>
-    <form id="createServiceOrderFormId" #serviceOrderForm="ngForm" (ngSubmit)="createServiceOrder()">
+    <form id="createServiceOrderFormId" #serviceOrderForm="ngForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="fill">
             <mat-label>Number</mat-label>
             <input matInput id="number" name="number" [(ngModel)]="serviceOrder.number" required>
@@ -12,6 +12,45 @@
         <mat-form-field appearance="fill">
             <mat-label>Title</mat-label>
             <input matInput id="title" name="title" [(ngModel)]="serviceOrder.title" required>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Execution Date</mat-label>
+            <input matInput [matDatepicker]="picker" id="executionDate" name="executionDate" [(ngModel)]="serviceOrder.executionDate" required>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Price</mat-label>
+            <input matInput type="number" id="price__value" name="price__value" [(ngModel)]="serviceOrder.price.value" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Currency</mat-label>
+            <mat-select id="price__currencyId" name="price__currencyId" [(ngModel)]="serviceOrder.price.currencyId" required>
+                <mat-option *ngFor="let currency of currencies" [value]="currency.id">
+                    {{ currency.code }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Employee</mat-label>
+            <mat-select id="employeeId" name="employeeId" [(ngModel)]="serviceOrder.employeeId" required>
+                <mat-option *ngFor="let employee of employees" [value]="employee.id">
+                    {{ employee.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Customer</mat-label>
+            <mat-select id="customerId" name="customerId" [(ngModel)]="serviceOrder.customerId" required>
+                <mat-option *ngFor="let customer of customers" [value]="customer.id">
+                    {{ customer.name }}
+                </mat-option>
+            </mat-select>
         </mat-form-field>
     </form>
 </mat-dialog-content>
