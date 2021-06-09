@@ -21,6 +21,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
+import { NgxMaskModule } from 'ngx-mask';
+
 import { CreateServiceOrderFormDialogComponent } from './components/ServiceOrder/create-service-order-form-dialog/create-service-order-form-dialog.component';
 import { ServiceOrderListComponent } from './components/ServiceOrder/service-order-list/service-order-list.component';
 import { DeleteServiceOrderDialogComponent } from './components/ServiceOrder/delete-service-order-form-dialog/delete-service-order-form-dialog.component';
@@ -65,7 +67,10 @@ import { DeleteCustomerFormDialogComponent } from './components/Customer/delete-
     MatDatepickerModule,
     MatNativeDateModule,
     MatRippleModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NgxMaskModule.forRoot({
+      dropSpecialCharacters: true,
+    }),
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: PROSPERI_DATE_FORMATS }

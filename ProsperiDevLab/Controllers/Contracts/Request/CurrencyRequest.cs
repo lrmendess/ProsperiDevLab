@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ProsperiDevLab.Controllers.Contracts.Request
+﻿namespace ProsperiDevLab.Controllers.Contracts.Request
 {
     public class CurrencyRequest
     {

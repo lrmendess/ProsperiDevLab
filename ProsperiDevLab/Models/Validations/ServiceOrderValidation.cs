@@ -20,7 +20,7 @@ namespace ProsperiDevLab.Models.Validations
                 .NotEmpty()
                 .MaximumLength(255);
 
-            RuleFor(x => x.ExecutionDate.Date)
+            RuleFor(x => x.ExecutionDate)
                 .NotEmpty();
 //              .LessThanOrEqualTo(DateTime.UtcNow.Date);
 

@@ -20,7 +20,7 @@
         <mat-form-field appearance="fill">
             <mat-label>CNPJ</mat-label>
             <input matInput id="cnpj" name="cnpj" [(ngModel)]="customer.cnpj"
-                minlength="14" maxlength="14" required> <!-- TODO: Mask -->
+                minlength="14" maxlength="18" mask="CPF_CNPJ" required>
             <mat-hint *ngIf="errors?.CNPJ" class="text-danger">{{ errors.CNPJ[0] }}</mat-hint>
         </mat-form-field>
     </form>

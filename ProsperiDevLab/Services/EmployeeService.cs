@@ -30,7 +30,7 @@ namespace ProsperiDevLab.Services
 
             if (employee.ServiceOrders.Any())
             {
-                Notify(NotificationType.ERROR, string.Empty, "An employee associated with service orders cannot be deleted.");
+                Notify(NotificationType.ERROR, string.Empty, "A employee associated with service orders cannot be deleted.");
                 return;
             }
 

@@ -20,8 +20,8 @@ namespace ProsperiDevLab.Repositories
         {
             return _context.Customers
                 .Include(x => x.ServiceOrders)
-                .ThenInclude(x => x.Price)
-                .ThenInclude(x => x.Currency)
+                    .ThenInclude(x => x.Price)
+                    .ThenInclude(x => x.Currency)
                 .FirstOrDefault(x => x.Id == id);
         }
     }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ProsperiDevLab.Controllers.Contracts.Response
+﻿namespace ProsperiDevLab.Controllers.Contracts.Response
 {
     public class CurrencyResponse
     {

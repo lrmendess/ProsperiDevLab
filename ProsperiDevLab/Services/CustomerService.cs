@@ -30,7 +30,7 @@ namespace ProsperiDevLab.Services
 
             if (customer.ServiceOrders.Any())
             {
-                Notify(NotificationType.ERROR, string.Empty, "An customer associated with service orders cannot be deleted.");
+                Notify(NotificationType.ERROR, string.Empty, "A customer associated with service orders cannot be deleted.");
                 return;
             }
 

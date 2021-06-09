@@ -17,10 +17,12 @@ namespace ProsperiDevLab.Models.Validations
                 .WithMessage("Currency code already exists.");
 
             RuleFor(x => x.Name)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(255);
 
             RuleFor(x => x.Symbol)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(15);
         }
     }
 }

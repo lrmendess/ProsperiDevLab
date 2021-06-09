@@ -11,7 +11,8 @@ namespace ProsperiDevLab.Models.Mappings
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Name)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(255);
 
             builder.Property(x => x.Code)
                 .HasMaxLength(3)
@@ -21,7 +22,8 @@ namespace ProsperiDevLab.Models.Mappings
                 .IsUnique();
 
             builder.Property(x => x.Symbol)
-                .IsRequired();
+                .IsRequired()
+                .HasMaxLength(15);
 
             builder.Seed<Currency>();
         }

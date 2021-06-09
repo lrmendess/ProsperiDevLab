@@ -18,7 +18,7 @@ import { ServiceOrderService } from 'src/app/services/service-order.service';
 })
 export class CreateServiceOrderFormDialogComponent implements OnInit {
 
-  serviceOrder: ServiceOrder = { price: {} as Price } as ServiceOrder;
+  serviceOrder: ServiceOrder = { price: { currency: {} as Currency } as Price } as ServiceOrder;
   
   errors: any = {};
 
@@ -83,6 +83,7 @@ export class CreateServiceOrderFormDialogComponent implements OnInit {
           },
           fail => {
             this.errors = fail.error.Errors;
+            console.log(this.errors);
             this.showSnackBarErrors();
           }
         );
@@ -95,6 +96,7 @@ export class CreateServiceOrderFormDialogComponent implements OnInit {
           },
           fail => {
             this.errors = fail.error.Errors;
+            console.log(fail);
             this.showSnackBarErrors();
           }
         );
