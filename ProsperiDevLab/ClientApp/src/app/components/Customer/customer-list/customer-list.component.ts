@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Customer } from 'src/app/models/customer.model';
 import { CustomerService } from 'src/app/services/customer.service';
@@ -15,6 +16,7 @@ import { DeleteCustomerFormDialogComponent } from '../delete-customer-form-dialo
 export class CustomerListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   customers: Customer[] = [];
 
@@ -46,6 +48,8 @@ export class CustomerListComponent implements OnInit {
       },
       () => {
         this.dataSource = new MatTableDataSource(this.customers);
+
+        this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       }
     );
@@ -67,6 +71,10 @@ export class CustomerListComponent implements OnInit {
       .subscribe(() => {
         this.retrieveAll();
       });
+  }
+
+  applyFilter(value: string): void {
+    this.dataSource.filter = value.trim().toLowerCase();
   }
 
 }

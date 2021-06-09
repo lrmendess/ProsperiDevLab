@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Employee } from 'src/app/models/employee.model';
 import { EmployeeService } from 'src/app/services/employee.service';
@@ -14,6 +15,7 @@ import { DeleteEmployeeFormDialogComponent } from '../delete-employee-form-dialo
 })
 export class EmployeeListComponent implements OnInit {
 
+  @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   employees: Employee[] = [];
@@ -46,6 +48,8 @@ export class EmployeeListComponent implements OnInit {
       },
       () => {
         this.dataSource = new MatTableDataSource(this.employees);
+
+        this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       }
     );
@@ -67,6 +71,10 @@ export class EmployeeListComponent implements OnInit {
       .subscribe(() => {
         this.retrieveAll();
       });
+  }
+
+  applyFilter(value: string): void {
+    this.dataSource.filter = value.trim().toLowerCase();
   }
 
 }

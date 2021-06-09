@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { DatePipe, CurrencyPipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { NgxMaskModule } from 'ngx-mask';
 
@@ -68,11 +71,15 @@ import { DeleteCustomerFormDialogComponent } from './components/Customer/delete-
     MatNativeDateModule,
     MatRippleModule,
     MatSnackBarModule,
+    MatSortModule,
+    MatAutocompleteModule,
     NgxMaskModule.forRoot({
       dropSpecialCharacters: true,
     }),
   ],
   providers: [
+    DatePipe,
+    CurrencyPipe,
     { provide: MAT_DATE_FORMATS, useValue: PROSPERI_DATE_FORMATS }
   ],
   bootstrap: [AppComponent]

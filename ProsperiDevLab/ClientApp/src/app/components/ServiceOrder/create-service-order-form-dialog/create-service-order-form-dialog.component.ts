@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { Currency } from 'src/app/models/currency.model';
 import { Customer } from 'src/app/models/customer.model';
 import { Employee } from 'src/app/models/employee.model';
@@ -37,10 +39,10 @@ export class CreateServiceOrderFormDialogComponent implements OnInit {
 
   ngOnInit(): void {
     if (this._serviceOrder) {
-      this.serviceOrder =          { ...this._serviceOrder           };
-      this.serviceOrder.price =    { ...this._serviceOrder.price     };
-      this.serviceOrder.customer = { ...this._serviceOrder.customer! };
-      this.serviceOrder.employee = { ...this._serviceOrder.employee! };
+      this.serviceOrder =           { ...this._serviceOrder           };
+      this.serviceOrder.price =     { ...this._serviceOrder.price     };
+      this._serviceOrder.customer = { ...this._serviceOrder.customer! };
+      this._serviceOrder.employee = { ...this._serviceOrder.employee! };
     }
 
     this._currencyService.getAll().subscribe(
@@ -74,6 +76,10 @@ export class CreateServiceOrderFormDialogComponent implements OnInit {
   onSubmit(): void {
     this.errors = {};
 
+    this.serviceOrder.price.value = Number(this.serviceOrder.price.value);
+    this.serviceOrder.employeeId = this.serviceOrder.employee?.id!;
+    this.serviceOrder.customerId = this.serviceOrder.customer?.id!;
+
     if (this._serviceOrder) {
       this._serviceOrderService
         .update(this._serviceOrder.id!, this.serviceOrder)
@@ -83,7 +89,6 @@ export class CreateServiceOrderFormDialogComponent implements OnInit {
           },
           fail => {
             this.errors = fail.error.Errors;
-            console.log(this.errors);
             this.showSnackBarErrors();
           }
         );
@@ -96,7 +101,6 @@ export class CreateServiceOrderFormDialogComponent implements OnInit {
           },
           fail => {
             this.errors = fail.error.Errors;
-            console.log(fail);
             this.showSnackBarErrors();
           }
         );
@@ -114,6 +118,14 @@ export class CreateServiceOrderFormDialogComponent implements OnInit {
     if (emptyErrors) {
       this._snackBar.open(emptyErrors[0], 'OK', snackBarConfig);
     }
+  }
+
+  displayEmployeeFn(employee: Employee): string {
+    return employee?.name;
+  }
+
+  displayCustomerFn(customer: Customer): string {
+    return customer?.name;
   }
 
 }
