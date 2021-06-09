@@ -1,0 +1,18 @@
+<p>
+    <mat-toolbar color="primary">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span><a class="brand-link" routerLink="service-orders">ProsperiDevLab</a></span>
+        <span class="example-spacer"></span>
+        <mat-menu #menu="matMenu" color="primary">
+            <a routerLink="service-orders" mat-btn mat-menu-item>Service Orders</a>
+            <a routerLink="employees" mat-btn mat-menu-item>Employees</a>
+            <a routerLink="customers" mat-btn mat-menu-item>Customers</a>
+        </mat-menu>
+    </mat-toolbar>
+</p>
+
+<div class="container-fluid">
+    <router-outlet></router-outlet>
+</div>

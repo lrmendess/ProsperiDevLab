@@ -1,0 +1,32 @@
+<h2 *ngIf="!_employee; else titleEdit" mat-dialog-title>
+    Create Employee
+</h2>
+
+<ng-template #titleEdit>
+    <h2 mat-dialog-title>
+        Edit Employee
+    </h2>
+</ng-template>
+
+<mat-dialog-content>
+    <form class="prosperi-form" id="createEmployeeFormId" #employeeForm="ngForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput id="name" name="name" [(ngModel)]="employee.name"
+                maxlength="255" required>
+            <mat-hint *ngIf="errors?.Name" class="text-danger">{{ errors.Name[0] }}</mat-hint>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>CPF</mat-label>
+            <input matInput id="cpf" name="cpf" [(ngModel)]="employee.cpf"
+                minlength="11" maxlength="14" mask="CPF_CNPJ" required>
+            <mat-hint *ngIf="errors?.CPF" class="text-danger">{{ errors.CPF[0] }}</mat-hint>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button type="button" mat-stroked-button mat-dialog-close>Close</button>
+    <button form="createEmployeeFormId" type="submit" color="primary" [disabled]="employeeForm.invalid" mat-flat-button>Save</button>
+</mat-dialog-actions>
