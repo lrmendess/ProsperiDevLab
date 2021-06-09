@@ -38,7 +38,7 @@ export class CreateEmployeeFormDialogComponent implements OnInit {
             this._dialogRef.close({ data: success });
           },
           fail => {
-            this.errors = fail.error.Errors;
+            this.errors = fail.error;
             this.showSnackBarErrors();
           }
         );
@@ -50,7 +50,7 @@ export class CreateEmployeeFormDialogComponent implements OnInit {
             this._dialogRef.close({ data: success });
           },
           fail => {
-            this.errors = fail.error.Errors;
+            this.errors = fail.error;
             this.showSnackBarErrors();
           }
         );

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { Customer } from '../models/customer.model';
 import { CrudService } from './crud.service';
 
@@ -9,7 +10,7 @@ import { CrudService } from './crud.service';
 export class CustomerService extends CrudService<number, Customer> {
 
   constructor(protected _httpClient: HttpClient) {
-    super(_httpClient, "https://localhost:44390/api/customers");
+    super(_httpClient, environment.API_URL + "/customers");
   }
 
 }

@@ -74,6 +74,15 @@ export class EmployeeListComponent implements OnInit {
   }
 
   applyFilter(value: string): void {
+    this.dataSource.filterPredicate = (data: Employee, filter: string) => {
+      const dataStr =
+          data.name
+        + data.cpf
+        + data.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+      
+      return dataStr.toLowerCase().includes(filter);
+    };
+
     this.dataSource.filter = value.trim().toLowerCase();
   }
 

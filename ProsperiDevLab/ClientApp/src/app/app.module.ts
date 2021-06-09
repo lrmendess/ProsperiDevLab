@@ -25,6 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 import { NgxMaskModule } from 'ngx-mask';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { CreateServiceOrderFormDialogComponent } from './components/ServiceOrder/create-service-order-form-dialog/create-service-order-form-dialog.component';
 import { ServiceOrderListComponent } from './components/ServiceOrder/service-order-list/service-order-list.component';
@@ -80,6 +81,7 @@ import { DeleteCustomerFormDialogComponent } from './components/Customer/delete-
   providers: [
     DatePipe,
     CurrencyPipe,
+    DeviceDetectorService,
     { provide: MAT_DATE_FORMATS, useValue: PROSPERI_DATE_FORMATS }
   ],
   bootstrap: [AppComponent]

@@ -74,6 +74,15 @@ export class CustomerListComponent implements OnInit {
   }
 
   applyFilter(value: string): void {
+    this.dataSource.filterPredicate = (data: Customer, filter: string) => {
+      const dataStr =
+          data.name
+        + data.cnpj
+        + data.cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+      
+      return dataStr.toLowerCase().includes(filter);
+    };
+
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
