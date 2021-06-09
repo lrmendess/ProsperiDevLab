@@ -17,7 +17,7 @@ Update-Database
 #Dotnet CLI
 dotnet ef database update
 ```
-Para restaurar as dependências do projeto .NET e executar a API, utilize os comandos que se seguem:
+Para restaurar as dependências do projeto .NET e executar a API, utilize os comandos que se seguem ou use o ferramental do Visual Studio:
 ```bash
 dotnet restore
 dotnet run
@@ -35,5 +35,28 @@ npm start
 A aplicação Angular encontra-se disponível em [http://localhost:4200/](http://localhost:4200/)
 
 ## 📰 Documentação
-- TODO: Definição de requisitos.
-- TODO: Diagrama de classes.
+### Definição de requisitos (funcionais)
+A XPTO Orçamentos Ltda. é uma empresa especializada em prestação de serviços para diversas áreas do mercado. A empresa XPTO possui uma equipe altamente especializada para execução dos diversos serviços que oferece a todas as empresas as quais possui contrato. Para cada serviço prestado pela empresa XPTO, uma Ordem de Serviço (OS) é emitida manualmente e encaminhada ao endereço da empresa contratante.
+
+O sistema deverá ter, em sua tela principal, a listagem de todas as OSs (Ordens de Serviços) cadastradas no sistema, além de um botão para criação de uma nova OS. Para cada item da listagem, deve haver um botão para edição e outro para exclusão. Ao editar um item da listagem, deverá ser aberta a tela de cadastro com as informações já preenchidas da OS.
+
+A listagem deverá conter os seguintes campos:
+- Nº da OS
+- Título do Serviço
+- Nome do Cliente
+- Valor do Serviço
+- Data de Execução
+
+A tela de cadastro deverá conter os seguintes campos:
+- Nº da OS
+- Título do Serviço
+- CNPJ do Cliente
+- Nome do Cliente
+- CPF do Prestador de Serviço
+- Nome do Prestador de Serviço
+- Data de Execução do Serviço
+- Valor do Serviço
+
+
+### Diagrama de classes
+![Diagrama de classes](./ProductRequirements/ClassDiagram.png)
