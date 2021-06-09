@@ -1,10 +1,11 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { dashCaseToCamelCase } from '@angular/compiler/src/util';
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { ServiceOrder } from 'src/app/models/service-order.model';
 import { ServiceOrderService } from 'src/app/services/service-order.service';
 import { CreateServiceOrderFormDialogComponent } from '../create-service-order-form-dialog/create-service-order-form-dialog.component';
@@ -21,11 +22,16 @@ export class ServiceOrderListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   serviceOrders: ServiceOrder[] = [];
-
   dataSource!: MatTableDataSource<ServiceOrder>;
-  serviceOrdersColumns: string[] = [
-    'number', 'title', 'customer', 'price',
-    'executionDate', 'actions'
+
+  serviceOrdersColumns: string[] = [];
+
+  serviceOrdersColumnsDesktop: string[] = [
+    'number', 'title', 'customer', 'price', 'executionDate', 'actions'
+  ];
+
+  serviceOrdersColumnsMobile: string[] = [
+    'number', 'price', 'executionDate', 'actions'
   ];
 
   dialogUIConfig: any = {
@@ -37,9 +43,16 @@ export class ServiceOrderListComponent implements OnInit {
     private _dialog: MatDialog,
     private _datePipe: DatePipe,
     private _currencyPipe: CurrencyPipe,
+    private _deviceService: DeviceDetectorService,
     private _serviceOrderService: ServiceOrderService) { }
 
   ngOnInit(): void {
+    if (this._deviceService.isDesktop()) {
+      this.serviceOrdersColumns = this.serviceOrdersColumnsDesktop;
+    } else {
+      this.serviceOrdersColumns = this.serviceOrdersColumnsMobile;
+    }
+      
     this.retrieveAll();
   }
 
