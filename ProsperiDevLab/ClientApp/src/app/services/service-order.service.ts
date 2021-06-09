@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 
 import { ServiceOrder } from '../models/service-order.model';
 import { CrudService } from './crud.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ import { CrudService } from './crud.service';
 export class ServiceOrderService extends CrudService<number, ServiceOrder> {
 
   constructor(protected _httpClient: HttpClient) {
-    super(_httpClient, "https://localhost:44390/api/serviceOrders");
+    super(_httpClient, environment.API_URL + "/serviceOrders");
   }
 
 }

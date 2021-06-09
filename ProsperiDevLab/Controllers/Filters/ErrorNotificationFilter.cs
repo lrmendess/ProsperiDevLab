@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using ProsperiDevLab.Controllers.Contracts.Response;
 using ProsperiDevLab.Services.Notificator;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace ProsperiDevLab.Controllers.Filters
 					errorsDict[err.Property].Add(err.Message);
 				});
 
-				var errors = JsonSerializer.Serialize(new { Errors = errorsDict });
+				var errors = JsonSerializer.Serialize(errorsDict);
 				
 				await context.HttpContext.Response.WriteAsync(errors);
 

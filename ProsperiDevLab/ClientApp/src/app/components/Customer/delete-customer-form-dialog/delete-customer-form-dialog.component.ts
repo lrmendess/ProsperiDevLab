@@ -29,7 +29,7 @@ errors: any = {};
         this._dialogRef.close({ data: success });
       },
       fail => {
-        this.errors = fail.error.Errors;
+        this.errors = fail.error;
         this.showSnackBarErrors();
       }
     );

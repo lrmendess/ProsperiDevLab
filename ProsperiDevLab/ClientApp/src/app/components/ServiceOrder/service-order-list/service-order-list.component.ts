@@ -108,7 +108,8 @@ export class ServiceOrderListComponent implements OnInit {
           data.number
         + data.title
         + data.customer?.name
-        + this._currencyPipe.transform(data.price.value, data.price.currency?.code) 
+        + data.price.value
+        + this._currencyPipe.transform(data.price.value, data.price.currency?.code)
         + this._datePipe.transform(data.executionDate, 'MM/dd/yyyy');
       
       return dataStr.toLowerCase().includes(filter);

@@ -30,7 +30,7 @@ namespace ProsperiDevLab.Controllers
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:long}")]
         public ActionResult<IEnumerable<ServiceOrderResponse>> Get(long id)
         {
             var serviceOrder = _serviceOrderService.Get(id);
@@ -48,6 +48,13 @@ namespace ProsperiDevLab.Controllers
         [HttpPost]
         public ActionResult<ServiceOrderResponse> Post([FromBody] ServiceOrderRequest request)
         {
+            ModelState.Remove("PriceId");
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var serviceOrder = _mapper.Map<ServiceOrder>(request);
 
             _serviceOrderService.Create(serviceOrder);
@@ -57,9 +64,14 @@ namespace ProsperiDevLab.Controllers
             return Created($"api/ServiceOrders/{serviceOrder.Id}", response);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:long}")]
         public ActionResult<ServiceOrderResponse> Put([FromRoute] long id, [FromBody] ServiceOrderRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (request?.Id != id)
             {
                 return NotFound();
@@ -74,7 +86,7 @@ namespace ProsperiDevLab.Controllers
             return Ok(response);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:long}")]
         public IActionResult Delete([FromRoute] long id)
         {
             _serviceOrderService.Remove(id);
