@@ -5,7 +5,7 @@ namespace ProsperiDevLab.Controllers.Contracts.Request
     public class PriceRequest
     {
         [Required]
-        [Range(0, long.MaxValue)]
+        [Range(1, long.MaxValue)]
         public long Id { get; set; }
         
         [Required]
