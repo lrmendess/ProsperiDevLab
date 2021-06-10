@@ -29,9 +29,9 @@ namespace ProsperiDevLab.Services
 
         public virtual void Create(TEntity entity, params string[] ruleSets)
         {
-            ruleSets.Append("create");
+            var rules = ruleSets.Any() ? ruleSets : new[] { "default", "create" };
 
-            if (!IsValid(DefaultValidator, entity, ruleSets))
+            if (!IsValid(DefaultValidator, entity, rules))
             {
                 return;
             }
@@ -50,9 +50,9 @@ namespace ProsperiDevLab.Services
 
         public virtual void Update(TEntity entity, params string[] ruleSets)
         {
-            ruleSets.Append("update");
+            var rules = ruleSets.Any() ? ruleSets : new[] { "default", "update" };
 
-            if (!IsValid(DefaultValidator, entity, ruleSets))
+            if (!IsValid(DefaultValidator, entity, rules))
             {
                 return;
             }
