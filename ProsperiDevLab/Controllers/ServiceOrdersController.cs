@@ -49,6 +49,7 @@ namespace ProsperiDevLab.Controllers
         public ActionResult<ServiceOrderResponse> Post([FromBody] ServiceOrderRequest request)
         {
             ModelState.Remove("PriceId");
+            ModelState.Remove("Price.Id");
 
             if (!ModelState.IsValid)
             {
