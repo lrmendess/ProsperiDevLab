@@ -9,8 +9,8 @@ namespace ProsperiDevLab.Models.Validations
         public PriceValidation(ApplicationDbContext context)
         {
             RuleFor(x => x.Value)
-                .GreaterThanOrEqualTo(0)
-                .NotEmpty();
+                .GreaterThanOrEqualTo(0);
+//              .NotEmpty();
 
             RuleFor(x => x.CurrencyId)
                 .NotEmpty()
